@@ -365,8 +365,12 @@ func killProcessGracefully(process *os.Process) {
 
 func flusher(buildStarted <-chan string, buildSuccess <-chan bool) {
 	for {
-		<-buildStarted
+		name := <-buildStarted
+		if *flagVerbose {
+			log.Println("changed: ", name)
+		}
 		<-buildSuccess
+
 	}
 }
 
